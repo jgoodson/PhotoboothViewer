@@ -1,12 +1,9 @@
 import os
+import os.path
 
-import redis
+from Database import Session, Photo
 
-r = redis.StrictRedis(host='localhost', port=6379, db=0)
-
-r.delete('files')
 
 def watch_folder(folder):
-    existing = r.smembers('files')
-    for file in os.listdir(folder):
-        pass
+    files = os.listdir(folder)
+    session = Session()
