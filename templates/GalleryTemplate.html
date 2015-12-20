@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+
+    <!-- latest jQuery direct from google's CDN -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <style>
+        html,body,.container-fluid
+        {
+            height:100%;
+        }
+        .scroller {
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+        .big-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".scroller-thumb").click(function() {
+                var newfile = $(this).attr('filename');
+                $(".big-image").attr('src', 'static/images/'+newfile);
+            });
+});
+    </script>
+
+</head>
+<body>
+
+<div class="container-fluid" style="padding:0 15px;"><!-- offset row negative padding -->
+    <div class="row">
+         <div class="col-md-12 scroller">
+            {% for photo in photos %}
+             <img src="static/thumbnails/{{ photo }}" class="scroller-thumb" filename="{{ photo }}">
+             {% endfor %}
+         </div>
+    </div>
+    <div class="row" style="height: 80%">
+        <div class="col-md-8" style="height: 100%">
+          <div id="main-picture" style="height: 100%">
+              <img src="static/images/{{ photos[0] }}" class="big-image">
+          </div>
+        </div>
+        <div class="col-md-4">
+          Comment Box
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,9 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.pool import StaticPool
 
-engine = create_engine('sqlite:///:memory:')
+engine = create_engine('sqlite://',
+                       connect_args={'check_same_thread': False},
+                       poolclass=StaticPool)
 
 Base = declarative_base()
 
@@ -15,8 +18,9 @@ class Photo(Base):
     time = Column(DateTime)
 
     def __repr__(self):
-        return "<Photo(filename='{}', id={}, time='{}'".format(self.filename, self.id, self.time)
+        return "Photo(filename='{}', id={}, time='{}'".format(self.filename, self.id, self.time)
 
 Base.metadata.create_all(engine)
 
-Session = sessionmaker(bind=engine)
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)

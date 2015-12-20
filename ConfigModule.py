@@ -3,7 +3,7 @@ class Config(object):
         {
             'id': 'watch_folder',
             'func': 'FileWatcher:watch_folder',
-            'args': ('c:/Users/jonathan/Pictures/PhotoBooth/',),
+            'args': ('c:/Users/jonathan/Pictures/PhotoBooth/', '.jpg'),
             'trigger': 'interval',
             'seconds': 5
         }
