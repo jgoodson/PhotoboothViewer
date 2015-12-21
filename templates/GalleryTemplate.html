@@ -18,6 +18,10 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+    <!-- Kinetic scrolling -->
+    <script type="text/javascript" src="static/jquery.kinetic.min.js">
+    </script>
+
     <style>
         html,body,.container-fluid
         {
@@ -31,15 +35,59 @@
             max-width: 100%;
             max-height: 100%;
         }
+        .blur-out {
+            -webkit-filter: blur(8px);
+            opacity: 0.25;
+            -webkit-transition: all 0.5s ease-out;
+            transition: all 0.5s ease-out;
+            visibility: hidden;
+        }
     </style>
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            $(".scroller-thumb").click(function() {
-                var newfile = $(this).attr('filename');
-                $(".big-image").attr('src', 'static/images/'+newfile);
+        var indices = [{% for index in indices %}{{ index }}, {% endfor %}];
+        function preload(arrayOfImages) {
+            $(arrayOfImages).each(function () {
+                $('<img />').attr('src',this).appendTo('body').css('display','none');
             });
-});
+        }
+        function linkthumb() {
+            $(".scroller-thumb").dblclick(function() {
+                var newfile = $(this).attr('filename');
+                preload(['static/images/'+newfile]);
+                $(".big-image").fadeOut("slow", function() {
+                    $(".big-image").attr('src', 'static/images/'+newfile);
+                    $(".big-image").fadeIn("slow")
+                })
+            });
+        }
+
+        $(document).ready(function() {
+            $(".scroller").kinetic({
+                filterTarget: function(target, e){
+                    if (!/down|start/.test(e.type)){
+                        return !(/area|a|input/i.test(target.tagName));
+                    }
+                }
+            });
+            linkthumb();
+        });
+
+
+        (function(){
+            $.getJSON("get_updates", JSON.stringify(indices), function(data){
+                $.each(data.ids, function(index, id){
+                    indices.push(id);
+                });
+                $.each(data.filenames, function(index, filename){
+                    $('#scroller').prepend('<img src="static/thumbnails/'+filename+'" class="scroller-thumb" filename="'+filename+'">');
+                    // do with each filename???
+                    console.log(filename);
+                });
+                linkthumb();
+            });
+            setTimeout(arguments.callee, 5000);
+        })();
     </script>
 
 </head>
@@ -47,7 +95,7 @@
 
 <div class="container-fluid" style="padding:0 15px;"><!-- offset row negative padding -->
     <div class="row">
-         <div class="col-md-12 scroller">
+         <div class="col-md-12 scroller" id="scroller">
             {% for photo in photos %}
              <img src="static/thumbnails/{{ photo }}" class="scroller-thumb" filename="{{ photo }}">
              {% endfor %}

@@ -20,6 +20,10 @@ def watch_folder(folder, ext, thumb_size=(400, 200)):
         im.thumbnail(thumb_size, Image.ANTIALIAS)
         im.save('static/thumbnails/'+photo)
         new_entries.append(Photo(filename=photo, time=datetime.fromtimestamp(os.path.getmtime(folder+photo))))
+        if len(new_entries) >= 10:
+            session.add_all(new_entries)
+            session.commit()
+            new_entries = []
     session.add_all(new_entries)
     session.commit()
     Session.remove()
