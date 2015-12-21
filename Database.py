@@ -4,7 +4,8 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.pool import StaticPool
 
-engine = create_engine('sqlite://',
+#TODO break out database details into config file
+engine = create_engine('sqlite:///photos.db',
                        connect_args={'check_same_thread': False},
                        poolclass=StaticPool)
 

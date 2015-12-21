@@ -1,3 +1,5 @@
+'''
+
 class Config(object):
     JOBS = [
         {
@@ -10,3 +12,4 @@ class Config(object):
     ]
 
     SCHEDULER_VIEWS_ENABLED = True
+'''

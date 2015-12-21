@@ -10,12 +10,8 @@ from Database import Session, Photo
 from time import time
 
 app = Flask(__name__)
-app.config.from_object('ConfigModule.Config')
+#app.config.from_object('ConfigModule.Config')
 app.debug = True
-
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
 
 
 @app.route('/')
@@ -41,5 +37,7 @@ def fetch(*args, **kwargs):
     return ujson.dumps({'ids': [p.id for p in new_photos],
                         'filenames': [p.filename for p in new_photos]})
 
-app.run()
+
+if __name__ == '__main__':
+    app.run()
 
