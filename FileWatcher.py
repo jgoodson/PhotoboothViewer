@@ -27,7 +27,7 @@ if __name__ == '__main__':
     scheduler = BlockingScheduler()
     #TODO move this info to config file
     scheduler.add_job(watch_folder, 'interval', args=(
-        'c:/Users/jonathan/Pictures/PhotoBooth/',
+        '/Users/jonathan/Pictures/PhotoBooth/',
         '.jpg',
     ), seconds=1)
     scheduler.start()

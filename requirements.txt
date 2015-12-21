@@ -1,0 +1,6 @@
+pillow
+uwsgi
+sqlalchemy
+ujson
+flask
+apscheduler
