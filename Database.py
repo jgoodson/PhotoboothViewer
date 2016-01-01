@@ -17,7 +17,7 @@ class Photo(Base):
     id = Column(Integer, primary_key=True)
     filename = Column(String)
     time = Column(DateTime)
-
+    comments = Column(String)
     def __repr__(self):
         return "Photo(filename='{}', id={}, time='{}'".format(self.filename, self.id, self.time)
 

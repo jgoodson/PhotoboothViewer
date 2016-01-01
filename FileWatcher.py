@@ -18,7 +18,9 @@ def watch_folder(folder, ext, thumb_size=(400, 200)):
         im.save('static/images/'+photo)
         im.thumbnail(thumb_size, Image.ANTIALIAS)
         im.save('static/thumbnails/'+photo)
-        session.add(Photo(filename=photo, time=datetime.fromtimestamp(os.path.getmtime(folder+photo))))
+        session.add(Photo(filename=photo,
+                          time=datetime.fromtimestamp(os.path.getmtime(folder+photo)),
+                          comments=''))
         session.commit()
 
     Session.remove()
